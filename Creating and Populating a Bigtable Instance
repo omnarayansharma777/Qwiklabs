@@ -1,0 +1,12 @@
+Google Cloud Bigtable is a managed NoSQL database service designed for large-scale, low-latency workloads. 
+it is generally recommended for datasets that exceed 1 TB or for workloads that require thousands of operations per second.
+
+Use Case 1: Real-Time Analytics for Ad Tech
+Use Case 2: IoT Data Ingestion and Analysis
+Use Case 3: Personalized Recommendations for E-commerce
+Use Case 4: Financial Market Data Analysis
+
+update the .cbtrc configuration file with your project ID and your Bigtable instance ID using Cloud Shell
+echo project = `gcloud config get-value project` >> ~/.cbtrc
+echo instance = instance_name >> ~/.cbtrc
+cbt read UserSessions count=10
