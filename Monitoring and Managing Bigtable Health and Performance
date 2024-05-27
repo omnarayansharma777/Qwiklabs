@@ -1,0 +1,10 @@
+Bigtable is Google's fully managed, scalable NoSQL database service. 
+Bigtable is ideal for storing large amounts of data in a key-value store and for use cases 
+such as personalization, ad tech, financial tech, digital media, and Internet of Things (IoT). 
+Bigtable supports high read and write throughput at low latency for fast access to large amounts of data for processing and analytics.
+
+In general,you utilize less than 70% of disk storage in a cluster.
+For latency-sensitive applications,storage utilization per node remain below 60%
+
+To apply node autoscaling to the cluster
+gcloud bigtable clusters update CLUSTER_ID --instance=INSTANCE_ID --autoscaling-min-nodes=1 --autoscaling-max-nodes=3 --autoscaling-cpu-target=60
