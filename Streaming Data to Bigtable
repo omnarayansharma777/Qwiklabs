@@ -1,0 +1,15 @@
+Bigtable is Google's fully managed, scalable NoSQL database service. 
+Bigtable is ideal for storing large amounts of data in a key-value store and for use cases such as personalization, ad tech, financial tech, digital media, and Internet of Things (IoT). 
+Bigtable supports high read and write throughput at low latency for fast access to large amounts of data for processing and analytics.
+
+gcloud bigtable instances create INSTANCE NAME  --display-name="INSTANCE_DISPLAY_NAME" --cluster-storage-type=SSD --cluster-config=id=CLUSTER_ID,zone=ZONE,nodes=1
+echo project = `gcloud config get-value project` >> ~/.cbtrc
+echo instance = INSTANCE_ID >> ~/.cbtrc
+cbt createtable TABLE_NAME families="COLUMN_FAMILY"
+
+source /training/project_env.sh
+/training/sensor_magic.sh     #start the streaming data simulator
+./run_oncloud.sh $DEVSHELL_PROJECT_ID $BUCKET CurrentConditions --bigtable   #To launch the Dataflow pipeline to read from Pub/Sub and write into Bigtable
+cbt read current_conditions count=5 columns="lane:.*"
+cbt deletetable TABLE_NAME
+gcloud bigtable instances delete INSTANCE_NAME
