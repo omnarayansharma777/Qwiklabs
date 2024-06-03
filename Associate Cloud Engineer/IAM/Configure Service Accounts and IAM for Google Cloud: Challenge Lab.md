@@ -1,19 +1,12 @@
-Sure! Here's the Markdown for the GitHub `README.md` file, including all the tasks described:
-
-```markdown
-# Google Cloud Platform Setup Guide
-
-This guide provides step-by-step instructions to perform various tasks using Google Cloud Platform (GCP) and the `gcloud` CLI.
-
 ## Task 1: Create a Service Account
 
-First, initialize the gcloud CLI:
+### Step 1: Initialize the gcloud CLI
 
 ```sh
 gcloud init --no-launch-browser
 ```
 
-Create a new service account with a unique identifier and a display name:
+### Step 2: Create a New Service Account
 
 ```sh
 gcloud iam service-accounts create UNIQUE_IDENTIFIER --display-name "DISPLAY_NAME"
@@ -21,14 +14,14 @@ gcloud iam service-accounts create UNIQUE_IDENTIFIER --display-name "DISPLAY_NAM
 
 ## Task 2: Grant IAM Permissions to the Service Account
 
-Retrieve the email of the service account and the current project ID:
+### Step 1: Retrieve the Email of the Service Account and the Current Project ID
 
 ```sh
 SA=$(gcloud iam service-accounts list --format="value(email)" --filter "displayName=devops")
 PROJECT_ID=$(gcloud config get project)
 ```
 
-Grant the required IAM roles to the service account:
+### Step 2: Grant the Required IAM Roles to the Service Account
 
 ```sh
 gcloud projects add-iam-policy-binding $PROJECT_ID --member serviceAccount:$SA --role=roles/iam.serviceAccountUser
@@ -37,7 +30,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID --member serviceAccount:$SA -
 
 ## Task 3: Create a Compute Instance with the Service Account Attached
 
-Create a new compute instance in the specified zone with the service account attached:
+### Step 1: Create a New Compute Instance
 
 ```sh
 gcloud compute instances create vm-2 --zone=us-east4-b --machine-type=e2-standard-2 --service-account $SA --scopes "https://www.googleapis.com/auth/compute"
@@ -45,7 +38,9 @@ gcloud compute instances create vm-2 --zone=us-east4-b --machine-type=e2-standar
 
 ## Task 4: Create a Custom Role Using a YAML File
 
-Create a YAML file named `role-definition.yaml` with the following content:
+### Step 1: Create the YAML File
+
+Create a file named `role-definition.yaml` with the following content:
 
 ```yaml
 title: "Role Custom"
@@ -56,7 +51,7 @@ includedPermissions:
 - cloudsql.instances.get
 ```
 
-Create the custom role in your project:
+### Step 2: Create the Custom Role in Your Project
 
 ```sh
 gcloud iam roles create editor --project $PROJECT_ID --file role-definition.yaml
@@ -64,7 +59,7 @@ gcloud iam roles create editor --project $PROJECT_ID --file role-definition.yaml
 
 ## Task 5: Use the Client Libraries to Access BigQuery from a Service Account
 
-Install the necessary packages:
+### Step 1: Install the Necessary Packages
 
 ```sh
 sudo apt-get update
@@ -76,7 +71,9 @@ pip3 install pandas
 pip3 install db-dtypes
 ```
 
-Create a Python script named `query.py` with the following content:
+### Step 2: Create a Python Script
+
+Create a file named `query.py` with the following content:
 
 ```python
 from google.auth import compute_engine
@@ -103,21 +100,16 @@ client = bigquery.Client(
 print(client.query(query).to_dataframe())
 ```
 
+### Step 3: Replace Placeholder Values
+
 Replace `YOUR_SERVICE_ACCOUNT` and `YOUR_PROJECT_ID` with the appropriate values using `sed`:
 
 ```sh
 sed -i -e "s/YOUR_SERVICE_ACCOUNT/bigquery-qwiklab@$(gcloud config get-value project).iam.gserviceaccount.com/g" query.py
 ```
 
-Run the script:
+### Step 4: Run the Script
 
 ```sh
 python3 query.py
 ```
-
-## Conclusion
-
-You have now completed all the tasks required to create and manage resources on Google Cloud Platform using the `gcloud` CLI and Python client libraries.
-```
-
-This README.md file provides a clear and detailed guide to setting up and managing Google Cloud resources, including creating a service account, granting IAM permissions, creating a compute instance, creating a custom role, and using the BigQuery client library with a service account.
